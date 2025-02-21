@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<meta property='og:title' content='FetalCLIP: A Visual-Language Foundation Model for Fetal Ultrasound Image Analysis'/>
+<meta property='og:image' content=''/>
+<meta property='og:description' content=''/>
+<meta property='og:url' content='https://github.com/BioMedIA-MBZUAI/FetalCLIP'/>
+<meta property='og:image:width' content='1200' />
+<meta property='og:image:height' content='663' />
+<!-- TYPE BELOW IS PROBABLY: 'website' or 'article' or look on https://ogp.me/#types -->
+<meta property="og:type" content='website'/>
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9VZKE74FPW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-9VZKE74FPW');
+</script>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="FetalCLIP: A Visual-Language Foundation Model for Fetal Ultrasound Image Analysis">
+  <meta name="keywords" content="FetalCLIP">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FetalCLIP: A Visual-Language Foundation Model for Fetal Ultrasound Image Analysis</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/tab_gallery.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+  <link rel="stylesheet" href="juxtapose/css/juxtapose.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="./static/js/magnifier.js"></script>
+  <link href="https://fonts.cdnfonts.com/css/menlo" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/image_card_fader.css">
+  <link rel="stylesheet" href="./static/css/image_card_slider.css">
+
+</head>
+
+<style>
+  @import url('https://fonts.cdnfonts.com/css/menlo');
+</style>
+
+
+<body>
+  <section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title">FetalCLIP: A Visual-Language Foundation Model for Fetal Ultrasound Image Analysis</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><a href="https://www.linkedin.com/in/fadamsyah/">Fadillah Maani</a><sup>1<b style="font-size: 20px;">*</b></sup>,</span>
+            <span class="author-block"><a href="https://numanai.github.io/">Numan Saeed</a><sup>1<b style="font-size: 20px;">*</b></sup>,</span>
+            <span class="author-block"><a href="https://www.linkedin.com/in/tausifa-jan-saleem-4b013211b/">Tausifa Saleem</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://www.linkedin.com/in/zaid-farooq/?originalSubdomain=ae">Zaid Farooq</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://www.linkedin.com/in/hussain-alasmawi/">Hussain Alasmawi</a><sup>1</sup></span>
+            <span class="author-block"><a href="https://www.linkedin.com/in/werner-diehl-07837794/?originalSubdomain=ae">Werner Diehl</a><sup>2</sup></span>
+            <span class="author-block"><a href="https://corniche.seha.ae/hospital-detail/38">Ameera Mohammad</a><sup>2</sup></span>
+            <span class="author-block"><a href="https://www.linkedin.com/in/dr-gareth-waring-477ba22ba/?originalSubdomain=ae">Gareth Waring</a><sup>2</sup></span>
+            <span class="author-block"><a href="https://www.seha.ae/doctor-detail/104">Saudabi Valappi</a><sup>2</sup></span>
+            <span class="author-block"><a href="https://www.linkedin.com/in/leanne-bricker-mb-bch-frcog-30789515/?originalSubdomain=ae">Leanne Bricker</a><sup>2</sup></span>
+            <span class="author-block"><a href="https://scholar.google.co.uk/citations?user=9dfn5GkAAAAJ&hl=en">Mohammad Yaqub</a><sup>1</sup></span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><b style="font-size: 20px;">*</b> Equally contributing first authors,</span>
+            <!-- <span class="author-block"><sup>♠</sup> Equally contributing second authors</span> -->
+            <br>
+            <span class="author-block"><sup>1</sup>Mohamed Bin Zayed University of Artificial Intelligence</span>
+            <span class="author-block"><sup>2</sup> SEHA Corniche Hospital </span>
+          </div>  
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2502.14807" target="_blank"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+            </span>
+                <!-- <span class="link-block">
+                  <a href="https://huggingface.co/datasets/ucf-crcv/SB-Bench" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-database"></i>
+                    </span>
+                    <span>Dataset</span>
+                  </a>
+                </span> -->
+              <span class="link-block">
+                <a href="https://github.com/BioMedIA-MBZUAI/FetalCLIP" target="_blank"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+
+              <span class="link-block">
+                <a href="#bibtex"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-obp"></i>
+                  </span>
+                  <span>BibTex</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+        <p align="justify"> 
+          While foundation models are transforming many domains of medical imaging, fetal ultrasound analysis remains a significant bottleneck. The complex nature of these images and the lack of readily available multimodal data limit the performance of current approaches. We introduce <b>FetalCLIP</b>, a vision-language foundation model specifically designed and trained for fetal ultrasound image understanding. <b>FetalCLIP</b> leverages multimodal pre-training on a large and diverse dataset to generate universal representations of fetal ultrasound imagery. This innovative approach allows <b>FetalCLIP</b> to capture essential anatomical information, yielding robust representations that can be applied to a variety of clinically relevant downstream tasks.
+        
+        </p>
+        <!-- <br> -->
+
+    <div class="column">
+        <div style="text-align:center;" >
+            <!-- <h4 class="subtitle has-text-centered"> -->
+            <img src="./static/figures/data_dist.png">
+            <!-- </h4> -->
+            
+            <div class="content has-text-justified">
+                <p align="justify"> <b> <span>Figure</span></b>: Distribution of routine pregnancy ultrasound scan data, which constitutes the largest
+                  portion of the FetalCLIP pretraining data.</p>
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+    </div>
+  </div>
+
+</section>
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop has-text-centered">
+                 <!-- Visual Effects. -->
+      <h2 class="title is-3">Abstract</h2>
+      <div class="content has-text-justified">
+        <p>
+          Foundation models are becoming increasingly effective in the medical domain, offering pre-trained models on large datasets that can be readily adapted for downstream tasks. Despite progress, fetal ultrasound images remain a challenging domain for foundation models due to their inherent complexity, often requiring substantial additional training and facing limitations due to the scarcity of paired multimodal data. To overcome these challenges, here we introduce FetalCLIP, a vision-language foundation model capable of generating universal representation of fetal ultrasound images. FetalCLIP was pre-trained using a multimodal learning approach on a diverse dataset of 210,035 fetal ultrasound images paired with text. This represents the largest paired dataset of its kind used for foundation model development to date. This unique training approach allows FetalCLIP to effectively learn the intricate anatomical features present in fetal ultrasound images, resulting in robust representations that can be used for a variety of downstream applications. In extensive benchmarking across a range of key fetal ultrasound applications, including classification, gestational age estimation, congenital heart defect (CHD) detection, and fetal structure segmentation, FetalCLIP outperformed all baselines while demonstrating remarkable generalizability and strong performance even with limited labeled data. We plan to release the FetalCLIP model publicly for the benefit of the broader scientific community.  <br>
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+</section>
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3"><i>FetalCLIP</i>, a novel visual-language foundation model explicitly engineered for fetal ultrasound images.</h2>
+        <div class="content has-text-justified">
+          <p>
+          <h5> <b> Main contributions: </b></h5>
+           <ol>
+             <li> <b>Foundation Model: </b> We introduce FetalCLIP, the first-of-its-kind foundation model designed for fetal ultrasound image analysis, incorporating a large pretraining dataset of diverse image-text paired fetal ultrasound images.
+             </li>
+            <li><b>Zero-Shot Performance: </b>FetalCLIP achieves outstanding zero-shot performance in fetal plane classification and gestational age estimation, while also effectively clustering fetal anatomical structures, potentially improving workflow efficiency in clinical practice.</li>
+            <li><b>Feature Extraction: </b>Our extensive evaluation demonstrates that FetalCLIP serves as a strong feature extractor for fetal ultrasound analysis.</li>
+
+           </ol>
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+  </div>
+</section>
+
+<section class="section">
+  
+    <!--/ Matting. -->
+    <div class="container is-max-desktop">
+
+      <!-- Latent space editing applications -->
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3 has-text-centered">Dataset Collection, Pretraining and Evaluation Pipeline</h2>
+  
+          <div class="content has-text-centered">
+              <img src="./static/figures/datasetcollection_pre_eva.png"  style="max-width:100%">
+                                    <p class="content has-text-justified">
+  
+              <div class="content has-text-justified">
+                  <p align="justify"> <b> <span>Figure</span></b>:
+                    Overview of FetalCLIP development and performance. <b>a</b>, Dataset curation of fetal ultrasound image-caption pairs used for the FetalCLIP pretraining. The pretraining data was curated from two sources: (1) routine pregnancy ultra-sound scans, comprising 207,943 images with corresponding LLM-generated pseudocaptions, which incorporate clinicians' labels, gestational age, and pixel spacing; and (2) 2,092 image-caption pairs derived from a fetal ultrasound textbook. <b>b</b>, FetalCLIP pretraining step through contrastive learning, maximizing similarity between paired image-captions while minimizing similarity to unrelated pairs. <b>c</b>, Radar plot demon-strating FetalCLIP's superior performance over existing vision-language foundation models across diverse fetal ultrasound tasks, including fetal planes classification, congenital heart disease detection, and fetal structures segmentation on different views. </p>
+              </div>
+  
+  
+              <img src="./static/figures/data_samples.png"  style="max-width:50%">
+                                    
+              <p class="content has-text-justified">
+              <div class="content has-text-justified">
+                  <p align="justify"> <b> <span>Figure</span></b>:
+                  Examples of various image views from the corniche hospital dataset. <b>a</b>, Representative examples of standard views from the fetal ultrasound dataset, showcasing diverse anatomical planes such as 4CH, Femur, Kidney, and Cerebellum. <b>b</b>, Examples of mislabeled samples detected by Confident Learning. <b>c</b>, Ultrasound images containing multiple clinician labels.</p>
+              </div>
+  
+  
+          <div class="content has-text-justified">
+              <h3 class="title is-4 has-text-justified">Zero-shot capabilities</h3>
+      
+              <p align="justify"> We conducted a study to evaluate FetalCLIP’s zeroshot capabilities in fetal plane classification and gestational age estimation.</p>
+          </div>
+  
+  
+          <div class="content has-text-justified">
+              <div class="content has-text-centered">
+              <img src="./static/figures/Zeroshot.png" style="max-width:100%"> 
+              </div>
+              <p align="justified"> <b> <span>Figure</span></b>: <i>Zero-shot capabilities of <i>FetalCLIP</i>.</i> <b>a</b>, Illustration of zero-shot fetal plane classification. We leveraged an LLM to generate prompts for a set of predefined candidate planes. The predicted plane was determined by identifying the highest similarity between the image embedding and prompt embeddings. <b>b</b>, Zero-shot performance in distinguishing five standard fetal planes and three brain subplanes. FetalCLIP achieved the highest accuracy with an average F1 score of 87.1%, outperforming the specialist model SonoNet by 17.2%. <b>c</b>, Illustration of zero-shot GA estimation. A similarity map was computed between the image embeddings and prompts embeddings spanning 14 to 40 weeks of GA. We then subsequently postprocessed the similarity map to predict GA. <b>d</b>, GA estimation performance of visual-language foundation models. The <span style="color: blue;">blue</span> points represent valid predictions, while the <span style="color: red;">red</span> points indicate invalid predictions. The black line represents the 50th percentile of the quantile regression population, and the <span style="color: orange;">orange</span> lines represent the 2.5th and 97.5th percentiles of the population as provided by the World Health Organization. Unlike FetalCLIP, other models demonstrated no ability to infer GA from fetal ultrasound head images.
+          </div>
+
+          <div class="content has-text-justified">
+            <h3 class="title is-4 has-text-justified">Linear Probing for classification tasks</h3>
+    
+            <p align="justify"> Motivated by the growing need for efficient tuning to adapt large pre-trained models to diverse applications. We assessed the capability of the FetalCLIP image encoder to extract generalizable features for downstream fetal ultrasound tasks. In this setup, the image encoder was entirely frozen, while a lightweight network was trained to utilize the extracted features for a specific ultimate task—e.g. a linear layer for classification. </p>
+        </div>
+
+
+        <div class="content has-text-justified">
+            <div class="content has-text-centered">
+            <img src="./static/figures/LinearProbing.png" style="max-width:100%"> 
+            </div>
+            <p align="justified"> <b> <span>Figure</span></b>: <i>Linear probing for classification tasks.</i> <b>a</b>, Schematic of linear probing for classifying different fetal planes. The image encoder of a visual-language foundation model was used to extract image embeddings, followed by a trainable linear layer for classification. <b>b</b>-<b>c</b>, F1 scores in the testing set for fetal plane and brain subplane classification, from 5-fold cross-validations with five different seeds. The bars represent the mean F1 scores, while the error bars indicate the standard deviation. <b>d</b>, Illustration of linear probing for CHD detection from an ultrasound clip. Embeddings were extracted from each image in the clip and concatenated. A trainable linear layer was then applied to leverage the combined embeddings for classification. <b>e</b>, AUROC comparisons for CHD detection across 5-fold cross-validations with 5 different seeds. <b>f</b>, ROC curve for CHD prediction showing the median performance of each model.</p>
+        </div>
+
+        <div class="content has-text-justified">
+          <h3 class="title is-4 has-text-justified">Segmentation</h3>
+  
+          <p align="justify"> Accurate pixel-level classification is critical for precise growing fetal biometry calcula-
+tions. We investigated the foundation models' ability to provide fine-grained
+intermediate image features essential for localizing fetal anatomical structures. We
+apply a lightweight decoder with few parameters (∼1.3 million parameters for ViT-B
+and ∼1.6 million for ViT-L encoders) to utilize the intermediate image features for
+accurate segmentation of fetal anatomical structures. </p>
+      </div>
+
+
+      <div class="content has-text-justified">
+          <div class="content has-text-centered">
+          <img src="./static/figures/Segmentation.png" style="max-width:100%"> 
+          </div>
+          <p align="justified"> <b> <span>Figure</span></b>: <i>Segmentation of various fetal structures across different views.</i> <b>a</b>, Illustration of the efficient adaptation of an image encoder for segmenting fetal structures in different views. A lightweight decoder was developed to leverage intermediate embeddings from the image encoder for segmentation. NL denotes the number of transformer blocks in the image encoder, which is 12 for ViT-B and 24 for ViT-L, respectively. <b>b</b>, Average segmentation performance across structures within each view (head, abdomen, and 4-chamber) evaluated over 5-fold cross-validations with five different seeds. <b>c</b>-<b>d</b>, Dice Similarity Coefficient (DSC) for individual structures in the abdomen view and 4-chamber view, respectively. LV, left ventricle; LA, left atrium; RA, right atrium; RV, right ventricle; IVS, interventricular septum.</p>
+      </div>
+          </div>
+
+
+        <h3 class="title is-4 has-text-justified">Acknowledgements</h3>
+        <div class="content has-text-justified">
+          <p>
+            We express our gratitude to Corniche Hospital in Abu Dhabi for providing prenatal
+scan data along with fetal heart scans, and to the Department of Health (DOH)
+Abu Dhabi for their support in approving the study which facilitates access to the
+anonymous data for internal purposes. We thank Alfred Z. Abuhamad for allowing us
+to leverage his book for foundation model pretraining. </p>
+
+            <br>
+            <p>For additional details about FetalCLIP dataset collection, pretraining and evaluation pipeline, please refer to our main paper. Thank you! </p>
+        </div>
+
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title"><a id="bibtex">BibTeX</a></h2>
+    <pre><code>@article{maani2025fetalclipvisuallanguagefoundationmodel,
+      title={FetalCLIP: A Visual-Language Foundation Model for Fetal Ultrasound Image Analysis},
+      author={Maani, Fadillah and Saeed, Numan and Saleem, Tausifa and Farooq, Zaid and Alasmawi, Hussain and Diehl, Werner and Mohammad, Ameera and Waring, Gareth and Valappi, Saudabi and Bricker, Leanne and Yaqub, Mohammad},
+      journal={arXiv preprint arXiv:2502.14807},
+      year={2025}
+    }
+}
+</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            Website adapted from the following <a href="https://mingukkang.github.io/GigaGAN/">source code</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script src="juxtapose/js/juxtapose.js"></script>
+
+<script>
+var slider;
+let origOptions = {
+    "makeResponsive": true,
+    "showLabels": true,
+    "mode": "horizontal",
+    "showCredits": true,
+    "animate": true,
+    "startingPosition": "50"
+};
+
+const juxtaposeSelector = "#juxtapose-embed";
+const transientSelector = "#juxtapose-hidden";
+
+  inputImage.src = "./static/images/".concat(name, "_input.jpg")
+  outputImage.src = "./static/images/".concat(name, "_output.jpg")
+
+  let images = [inputImage, outputImage];
+  let options = slider.options;
+  options.callback = function(obj) {
+      var newNode = document.getElementById(obj.selector.substring(1));
+      var oldNode = document.getElementById(juxtaposeSelector.substring(1));
+      console.log(obj.selector.substring(1));
+      console.log(newNode.children[0]);
+      oldNode.replaceChild(newNode.children[0], oldNode.children[0]);
+      //newNode.removeChild(newNode.children[0]);
+      
+  };
+  
+  slider = new juxtapose.JXSlider(transientSelector, images, options);
+};
+
+
+
+(function() {
+    slider = new juxtapose.JXSlider(
+        juxtaposeSelector, origImages, origOptions);
+    //document.getElementById("left-button").onclick = replaceLeft;
+    //document.getElementById("right-button").onclick = replaceRight;
+})();
+  // Get the image text
+  var imgText = document.getElementById("imgtext");
+  // Use the same src in the expanded image as the image being clicked on from the grid
+  // expandImg.src = imgs.src;
+  // Use the value of the alt attribute of the clickable image as text inside the expanded image
+  imgText.innerHTML = name;
+  // Show the container element (hidden with CSS)
+  // expandImg.parentElement.style.display = "block";
+
+$(".flip-card").click(function() {
+            console.log("fading in")
+            div_back = $(this).children().children()[1]
+            div_front = $(this).children().children()[0]
+            // console.log($(this).children("div.flip-card-back"))
+            console.log(div_back)
+            $(div_front).addClass("out");
+            $(div_front).removeClass("in");
+
+            $(div_back).addClass("in");
+            $(div_back).removeClass("out");
+
+});
+
+$(".flip-card").mouseleave(function() {
+            console.log("fading in")
+            div_back = $(this).children().children()[1]
+            div_front = $(this).children().children()[0]
+            // console.log($(this).children("div.flip-card-back"))
+            console.log(div_back)
+            $(div_front).addClass("in");
+            $(div_front).removeClass("out");
+
+            $(div_back).addClass("out");
+            $(div_back).removeClass("in");
+
+});
+
+</script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>    
+
+</body>
+</html>
