@@ -45,7 +45,7 @@ pip install -r requirements.txt
 ## 📥 Download FetalCLIP weights
 The pretrained FetalCLIP model can be downloaded from the following link:
 
-➡️ [Download FetalCLIP_weights.pt]([https://mbzuaiac-my.sharepoint.com/:f:/g/personal/fadillah_maani_mbzuai_ac_ae/EspGREsyuOtEpxt36RoEUBoB6jtlsvPeoiDTBC1qX8WdZQ?e=uAbuyv](https://mbzuaiac-my.sharepoint.com/:u:/g/personal/numan_saeed_mbzuai_ac_ae/IQCdz_vqQAGASqnVG5BhaDwFAWjElQ9Hm69SI2kapnMTHdY?e=N5x6Tm))
+➡️ [Download FetalCLIP_weights.pt](https://mbzuaiac-my.sharepoint.com/:u:/g/personal/numan_saeed_mbzuai_ac_ae/IQCdz_vqQAGASqnVG5BhaDwFAWjElQ9Hm69SI2kapnMTHdY?e=N5x6Tm)
 
 ## ⚡ Quick Start
 
