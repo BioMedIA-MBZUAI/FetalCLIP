@@ -94,10 +94,26 @@ total_predictions = len(list_validity)
 valid_count = sum(list_validity)
 valid_percentage = (valid_count / total_predictions) * 100 if total_predictions > 0 else 0
 
+# Computer 95% CI using bootstrap
+np_list_validity = np.array(list_validity)
+
+B = 10000  # number of bootstrap resamples
+boot_means = np.empty(B)
+
+rng = np.random.default_rng(seed=42) # reproducible
+
+for b in range(B):
+    sample = rng.choice(np_list_validity, size=len(np_list_validity), replace=True)
+    boot_means[b] = sample.mean()
+
+ci_lower, ci_upper = np.percentile(boot_means, [2.5, 97.5])
+
 # Print results
 print(f"Total Predictions: {total_predictions}")
 print(f"Valid Predictions: {valid_count}")
 print(f"Valid Prediction Rate: {valid_percentage:.2f}%")
+print(f"Point estimate: {np_list_validity.mean()*100:.2f}%")
+print(f"95% bootstrap CI:, ({ci_lower*100:.2f}, {ci_upper*100:.2f})")
 
 plt.style.use("seaborn-v0_8-paper")
 

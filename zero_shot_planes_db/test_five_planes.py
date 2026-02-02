@@ -5,6 +5,8 @@ import torch
 import numpy as np
 import pandas as pd
 import open_clip
+import json
+
 from PIL import Image
 
 from tqdm import tqdm
@@ -21,6 +23,7 @@ NUM_WORKERS = 4
 
 # Set device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(device)
 
 # Load model configuration
 with open(PATH_FETALCLIP_CONFIG, "r") as file:
@@ -149,6 +152,9 @@ def main(checkpoint):
             list_probs.append(text_probs.cpu())
 
     probs = torch.cat(list_probs, dim=0).detach().cpu()
+    preds = torch.argmax(probs, dim=1)
+    
+    list_pred = [index_to_planename[pred.item()] for pred in preds]
 
     targets = [planename_to_index[plane_db_to_planename[x]] for x in list_gt]
     targets = torch.tensor(targets)
@@ -215,6 +221,12 @@ def main(checkpoint):
 
     df = pd.DataFrame(list_data)
     df.to_csv('test_five_planes_results.csv', index=False)
+
+    with open("test_five_planes_prediction.json", "w") as f:
+        json.dump(
+            {"prediction": list_pred, "label": [plane_db_to_planename[x] for x in list_gt]},
+            f, indent=2
+        )
 
 def retrieve_based_on_indexes(vals, list_indexes):
     return [x.detach().item() for i, x in enumerate(vals) if i in list_indexes]
